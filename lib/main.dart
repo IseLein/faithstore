@@ -1,4 +1,3 @@
-import 'package:faithstore/services/sale.dart';
 import 'package:flutter/material.dart';
 import 'package:faithstore/pages/login_page.dart';
 import 'package:faithstore/pages/home.dart';
@@ -6,7 +5,6 @@ import 'package:faithstore/pages/sales.dart';
 import 'package:faithstore/pages/orders.dart';
 import 'package:faithstore/pages/stock.dart';
 import 'package:faithstore/pages/settings.dart';
-import 'package:faithstore/pages/sale_info.dart';
 
 void main() {
   runApp(const FaithstoreApp());

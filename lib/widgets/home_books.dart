@@ -22,7 +22,7 @@ class HomeBooks extends StatelessWidget {
       ),
       itemBuilder: (BuildContext context, int index) {
         Book book = thisBookList[index];
-        return book.renderHomeBook();
+        return book.renderHomeBook(context);
       },
     );
   }

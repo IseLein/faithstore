@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:faithstore/services/book.dart';
+import 'package:faithstore/pages/sale_info.dart';
 
 class Sale {
   Book book;
@@ -8,11 +9,18 @@ class Sale {
 
   Sale({required this.book, required this.saleTime, required this.quantity});
 
-  Widget renderSaleWidget() {
+  Widget renderSaleWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SaleInfo(sale: this),
+            ),
+          );
+        },
         child: Card(
           elevation: 2.0,
           child: Padding(

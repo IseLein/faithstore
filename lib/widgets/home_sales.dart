@@ -34,7 +34,7 @@ class _HomeSalesState extends State<HomeSales> {
                   )
                 :const SizedBox(height: 0.0),
             ),
-            sales[index].renderSaleWidget(),
+            sales[index].renderSaleWidget(context),
           ],
         );
       },

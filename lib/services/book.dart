@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:faithstore/pages/book_info.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum BookCategory {peaceHouse, others}
@@ -18,11 +19,18 @@ class Book {
     required this.shortTitle,
   });
 
-  Widget renderHomeBook() {
+  Widget renderHomeBook(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BookInfo(book: this),
+            ),
+          );
+        },
         splashColor: Colors.grey,
         child: Card(
           elevation: 2.0,
