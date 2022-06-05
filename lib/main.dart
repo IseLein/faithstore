@@ -41,7 +41,7 @@ class FaithstoreApp extends StatelessWidget {
           onSurface: Color.fromRGBO(54, 54, 54, 1.0),
         ),
       ),
-      home: SaleInfo(sale: salesList[0]),
+      home: const HomePage(),
       routes: {
         '/login': (context) => const Login(),
         '/home': (context) => const HomePage(),

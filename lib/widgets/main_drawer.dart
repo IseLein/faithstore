@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:faithstore/services/navigator.dart';
 
 class MainDrawer extends StatelessWidget {
   MainDrawer({Key? key, required this.currentPage}) : super(key: key);
@@ -42,7 +43,9 @@ class MainDrawer extends StatelessWidget {
             itemCount: menuItems.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                onTap: () {},
+                onTap: () {
+                  AppNavigator.navigate(index, context);
+                },
                 tileColor: (index == currentPage)
                     ? const Color.fromRGBO(208, 208, 208, 1.0)
                     : const Color.fromRGBO(250, 250, 250, 1.0),
