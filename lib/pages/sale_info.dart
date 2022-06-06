@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:faithstore/services/sale.dart';
 
 class SaleInfo extends StatelessWidget {
@@ -25,8 +26,9 @@ class SaleInfo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20.0),
-            saleProperty('Book:', sale.book.title),
-            saleProperty('Quantity:', sale.quantity.toString()),
+            saleProperty('Book', sale.book.title),
+            saleProperty('Author', sale.book.author),
+            saleProperty('Quantity', sale.quantity.toString()),
             saleProperty(
               'Sale Time:',
               '${getReadableTime(sale.saleTime)} ${sale.saleTime.day}'
@@ -44,14 +46,14 @@ class SaleInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            property,
+            '$property:',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               letterSpacing: 1.0,
             ),
           ),
           SizedBox(
-            width: 250.0,
+            width: 240.0,
             child: Text(
               value,
               textAlign: TextAlign.right,

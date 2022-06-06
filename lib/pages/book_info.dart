@@ -27,9 +27,10 @@ class BookInfo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20.0),
-            bookProperty('Title:', book.title),
-            bookProperty('Author:', book.author),
+            bookProperty('Title', book.title),
+            bookProperty('Author', book.author),
             bookProperty('Category', '${book.category}'.substring(13)),
+            bookProperty('Amount Left', '${book.quantityLeft}'),
             bookProperty('price', '${book.price}'),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -60,7 +61,7 @@ class BookInfo extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -75,7 +76,7 @@ class BookInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              property,
+              '$property:',
               style: const TextStyle(
                 // fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -83,7 +84,7 @@ class BookInfo extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 250.0,
+              width: 230.0,
               child: Text(
                 value,
                 textAlign: TextAlign.right,
