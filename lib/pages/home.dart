@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:faithstore/widgets/home_books.dart';
 import 'package:faithstore/widgets/main_drawer.dart';
 import 'package:faithstore/services/book.dart';
+import 'package:faithstore/services/data.dart';
+import 'package:faithstore/pages/cart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +16,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    if (Data.phBookList.isEmpty) {
+      Data.initData();
+    }
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
@@ -45,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 HomeBooks(
                   bookCategory: BookCategory.peaceHouse,
-                  thisBookList: bookList,
+                  thisBookList: Data.getBooks(BookCategory.peaceHouse),
                 ),
               ],
             ),
@@ -53,11 +58,25 @@ class _HomePageState extends State<HomePage> {
               children: [
                 HomeBooks(
                   bookCategory: BookCategory.others,
-                  thisBookList: bookList2,
+                  thisBookList: Data.getBooks(BookCategory.others),
                 ),
               ],
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          foregroundColor: Colors.white,
+          backgroundColor: const Color.fromRGBO(140, 140, 140, 1.0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CartPage(),
+              ),
+            );
+          },
+          icon: const Icon(FontAwesomeIcons.cartShopping),
+          label: const Text('Cart'),
         ),
       ),
     );

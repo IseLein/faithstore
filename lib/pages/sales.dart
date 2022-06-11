@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:faithstore/widgets/sales_bottom.dart';
 import 'package:faithstore/widgets/main_drawer.dart';
 import 'package:faithstore/widgets/home_sales.dart';
-import 'package:faithstore/services/sale.dart';
+import 'package:faithstore/services/data.dart';
 
 class SalesPage extends StatefulWidget {
   const SalesPage({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _SalesPageState extends State<SalesPage> {
         ),
       ),
       drawer: MainDrawer(currentPage: 2),
-      body: HomeSales(salesList: salesList),
+      body: HomeSales(salesList: Data.getSales()),
     );
   }
 }

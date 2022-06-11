@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:faithstore/services/book.dart';
+import 'package:faithstore/services/data.dart';
+import 'package:faithstore/services/navigator.dart';
 
 class BookInfo extends StatelessWidget {
   const BookInfo({Key? key, required this.book}) : super(key: key);
@@ -10,6 +12,7 @@ class BookInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController quantityController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Book"),
@@ -21,20 +24,21 @@ class BookInfo extends StatelessWidget {
             Center(
               child: Card(
                 child: Image.asset(
-                  'assets/images/book_image.jpg',
+                  book.image,
                   height: 200.0,
                 ),
               ),
             ),
             const SizedBox(height: 20.0),
-            bookProperty('Title', book.title),
-            bookProperty('Author', book.author),
-            bookProperty('Category', '${book.category}'.substring(13)),
-            bookProperty('Amount Left', '${book.quantityLeft}'),
-            bookProperty('price', '${book.price}'),
+            _bookProperty('Title', book.title),
+            _bookProperty('Author', book.author),
+            _bookProperty('Category', '${book.category}'.substring(13)),
+            _bookProperty('Amount Left', '${book.quantityLeft}'),
+            _bookProperty('price', '${book.price}'),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: TextFormField(
+                controller: quantityController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -50,7 +54,15 @@ class BookInfo extends StatelessWidget {
               padding: const EdgeInsets.only(left: 35.0, right: 35.0),
               child: Center(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    try {
+                      int quantity = int.parse(quantityController.text);
+                      bool isAdded = Data.addCartItem(book, quantity, 'Faith');
+                      _showBottomPanel(context, isAdded, quantity: quantity);
+                    } on FormatException {
+                      _showBottomPanel(context, false);
+                    }
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -68,7 +80,95 @@ class BookInfo extends StatelessWidget {
     );
   }
 
-  Widget bookProperty(String property, String value) {
+  void _showBottomPanel(BuildContext context, bool state, {int quantity = 0}) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return state
+            ? SizedBox(
+                height: 300,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '$quantity',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          (quantity == 1)
+                              ? const Text(' book'): const Text(' books'),
+                        ],
+                      ),
+                      const SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Cart Total: ',
+                            style: TextStyle(
+                              fontSize: 22.0,
+                            ),
+                          ),
+                          const Text(
+                            'N',
+                            style: TextStyle(
+                              fontSize: 22.0,
+                            ),
+                          ),
+                          Text(
+                            '${Data.getCartTotal()}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 25.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          AppNavigator.goToCheckout(context);
+                        },
+                        child: const Text('GO TO CHECKOUT'),
+                      ),
+                      const SizedBox(height: 20.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          AppNavigator.goToHome(context);
+                        },
+                        child: const Text('ADD MORE BOOKS'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : const SizedBox(
+                height: 300,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Check the number of Books you are trying to sell',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26.0,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+      },
+    );
+  }
+
+  Widget _bookProperty(String property, String value) {
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: ListTile(

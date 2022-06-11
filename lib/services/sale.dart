@@ -76,36 +76,3 @@ class Sale {
     );
   }
 }
-
-Book book1 = bookList[0];
-Book book2 = bookList[1];
-Book book3 = bookList2[0];
-Book book4 = bookList2[0];
-
-List<Sale> salesList = [
-  Sale(book: book1, saleTime: DateTime(2022), quantity: 4, trader: 'Faith'),
-  Sale(book: book1, saleTime: DateTime(2022), quantity: 4, trader: 'Faith'),
-  Sale(book: book1, saleTime: DateTime(2022), quantity: 4, trader: 'Faith'),
-  Sale(book: book2, saleTime: DateTime(2021), quantity: 4, trader: 'Faith'),
-  Sale(book: book1, saleTime: DateTime(2021), quantity: 3, trader: 'Faith'),
-  Sale(book: book4, saleTime: DateTime(2021), quantity: 5, trader: 'Seyi'),
-  Sale(book: book1, saleTime: DateTime(2020), quantity: 3, trader: 'Seyi'),
-  Sale(book: book1, saleTime: DateTime(2019), quantity: 1, trader: 'Seyi'),
-  Sale(book: book1, saleTime: DateTime(2018), quantity: 4, trader: 'Seyi'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Seyi'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Seyi'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Faith'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Faith'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Faith'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Faith'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'Faith'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-  Sale(book: book3, saleTime: DateTime(2018), quantity: 4, trader: 'MLR PH'),
-];

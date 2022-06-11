@@ -18,6 +18,7 @@ class _HomeSalesState extends State<HomeSales> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: widget.salesList.length,
       itemBuilder: (BuildContext context, int index) {
         List<Sale> sales = widget.salesList;
