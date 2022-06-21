@@ -34,7 +34,6 @@ class Data {
           )
       );
     }
-
     cartItems.add(CartItem(book: othersBookList[0], quantity: 4, trader: 'LOL'));
   }
 
@@ -72,6 +71,14 @@ class Data {
       return true;
     } else {
       return false;
+    }
+  }
+
+  /// Remove [cartItem] from [cartItems] if in the list.
+  /// If not, do nothing
+  static void deleteCartItem(CartItem cartItem) {
+    if (cartItems.contains(cartItem)) {
+      cartItems.remove(cartItem);
     }
   }
 }

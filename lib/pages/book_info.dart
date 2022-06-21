@@ -148,18 +148,25 @@ class BookInfo extends StatelessWidget {
                   ),
                 ),
               )
-            : const SizedBox(
+            : SizedBox(
                 height: 300,
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'Check the number of Books you are trying to sell',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26.0,
-                      ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(FontAwesomeIcons.triangleExclamation, size: 50.0),
+                        SizedBox(height: 15.0),
+                        Text(
+                          'Check the number of Books you are trying to sell',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

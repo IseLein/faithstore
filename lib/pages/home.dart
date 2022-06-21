@@ -95,7 +95,6 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: Colors.white,
           backgroundColor: const Color.fromRGBO(140, 140, 140, 1.0),
           onPressed: () {
-            print(_phBooks.length);
             Navigator.push(
               context,
               MaterialPageRoute(

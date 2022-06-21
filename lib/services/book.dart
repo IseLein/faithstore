@@ -22,6 +22,7 @@ class Book {
     required this.image,
   });
 
+  /// Precondition: [quantity] > 0
   bool reduceQuantity(int quantity) {
     if (quantityLeft < quantity) {
       return false;
@@ -29,6 +30,11 @@ class Book {
       quantityLeft -= quantity;
       return true;
     }
+  }
+
+  /// Precondition: [quantity] > 0
+  void increaseQuantity(int quantity) {
+    quantityLeft += quantity;
   }
 
   Widget renderHomeBook(BuildContext context) {

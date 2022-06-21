@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:faithstore/pages/cart.dart';
 import 'package:faithstore/services/book.dart';
 import 'package:faithstore/services/sale.dart';
+import 'package:faithstore/services/data.dart';
 
 class CartItem {
   Book book;
@@ -17,6 +19,17 @@ class CartItem {
       quantity: quantity,
       trader: trader,
     );
+  }
+
+  void editQuantity(int quantity) {
+    if (this.quantity < quantity) {
+      if (book.reduceQuantity(quantity - this.quantity)) {
+        this.quantity = quantity;
+      }
+    } else if (this.quantity > quantity) {
+      book.increaseQuantity(this.quantity - quantity);
+      this.quantity = quantity;
+    }
   }
 
   Widget renderCartItemWidget(BuildContext context) {
@@ -79,7 +92,17 @@ class CartItem {
                             const Color.fromRGBO(208, 208, 208, 1.0)
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Data.deleteCartItem(this);
+                        book.quantityLeft += quantity;
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CartPage(),
+                          ),
+                        );
+                      },
                       child: Row(
                         children: const [
                           Icon(FontAwesomeIcons.trashCan),
@@ -93,7 +116,9 @@ class CartItem {
                             const Color.fromRGBO(208, 208, 208, 1.0)
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _showEditPanel(context);
+                      },
                       child: Row(
                         children: const [
                           Icon(FontAwesomeIcons.penToSquare),
@@ -123,5 +148,78 @@ class CartItem {
         ),
       ),
     );
+  }
+
+  void _showEditPanel(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        TextEditingController quantityText = TextEditingController(
+            text: quantity.toString()
+        );
+        return SizedBox(
+          height: 300,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Book quantity',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                  ),
+                ),
+                const SizedBox(height: 15.0),
+                IconButton(
+                  onPressed: () {
+                    quantityText.value = TextEditingValue(
+                        text: (int.parse(quantityText.text) + 1).toString()
+                    );
+                    editQuantity(int.parse(quantityText.text));
+                    _updateState(context);
+                  },
+                  icon: const Icon(FontAwesomeIcons.angleUp),
+                ),
+                const SizedBox(height: 10.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    controller: quantityText,
+                    onSubmitted: (value) {
+                      editQuantity(int.parse(quantityText.text));
+                      _updateState(context);
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                IconButton(
+                  onPressed: () {
+                    if (int.parse(quantityText.text) > 0) {
+                      quantityText.value = TextEditingValue(
+                          text: (int.parse(quantityText.text) - 1).toString()
+                      );
+                      editQuantity(int.parse(quantityText.text));
+                      _updateState(context);
+                    }
+                  },
+                  icon: const Icon(FontAwesomeIcons.angleDown),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  void _updateState(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CartPage())
+    );
+    _showEditPanel(context);
   }
 }
