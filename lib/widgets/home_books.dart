@@ -11,19 +11,35 @@ class HomeBooks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      itemCount: thisBookList.length,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        mainAxisSpacing: 2.0,
-        childAspectRatio: 0.63,
-        crossAxisCount: 2,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        Book book = thisBookList[index];
-        return book.renderHomeBook(context);
-      },
-    );
+    return thisBookList.isEmpty
+      ? Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: const [
+              SizedBox(height: 20.0),
+              Text(
+                'No books found',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+            ],
+          ),
+      )
+      : GridView.builder(
+          shrinkWrap: true,
+          itemCount: thisBookList.length,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisSpacing: 2.0,
+            childAspectRatio: 0.63,
+            crossAxisCount: 2,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            Book book = thisBookList[index];
+            return book.renderHomeBook(context);
+        },
+      );
   }
 }

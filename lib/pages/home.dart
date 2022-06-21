@@ -4,6 +4,7 @@ import 'package:faithstore/widgets/home_books.dart';
 import 'package:faithstore/widgets/main_drawer.dart';
 import 'package:faithstore/services/book.dart';
 import 'package:faithstore/services/data.dart';
+import 'package:faithstore/services/search.dart';
 import 'package:faithstore/pages/cart.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,22 +15,48 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // These lists hold the books for display
+  List<Book> _phBooks = [];
+  List<Book> _otherBooks = [];
+
+  @override
+  initState() {
+    // At the beginning all users are shown
+    Data.initData();
+    _phBooks = Data.getBooks(BookCategory.peaceHouse);
+    _otherBooks = Data.getBooks(BookCategory.others);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (Data.phBookList.isEmpty) {
-      Data.initData();
-    }
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const TextField(
+          title: TextField(
+            onChanged: (value) => {
+              setState(() {
+                _phBooks = Search.searchBooks(
+                    value, Data.getBooks(BookCategory.peaceHouse)
+                );
+                _otherBooks = Search.searchBooks(
+                    value, Data.getBooks(BookCategory.others)
+                );
+              })
+            },
             showCursor: true,
-            decoration: InputDecoration(
-              prefix: Icon(FontAwesomeIcons.searchengin),
-              isDense: true,
-              constraints: BoxConstraints(minHeight: 0.0, maxHeight: 40.0),
+            textAlignVertical: TextAlignVertical.bottom,
+            style: const TextStyle(
+              fontSize: 18.0,
+            ),
+            decoration: const InputDecoration(
+              prefix: Padding(
+                padding: EdgeInsets.only(right: 5.0),
+                child: Icon(FontAwesomeIcons.magnifyingGlass, size: 16.0),
+              ),
+              constraints: BoxConstraints(minHeight: 0.0, maxHeight: 45.0),
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(),
@@ -50,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 HomeBooks(
                   bookCategory: BookCategory.peaceHouse,
-                  thisBookList: Data.getBooks(BookCategory.peaceHouse),
+                  thisBookList: _phBooks,
                 ),
               ],
             ),
@@ -58,7 +85,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 HomeBooks(
                   bookCategory: BookCategory.others,
-                  thisBookList: Data.getBooks(BookCategory.others),
+                  thisBookList: _otherBooks,
                 ),
               ],
             ),
@@ -68,6 +95,7 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: Colors.white,
           backgroundColor: const Color.fromRGBO(140, 140, 140, 1.0),
           onPressed: () {
+            print(_phBooks.length);
             Navigator.push(
               context,
               MaterialPageRoute(
