@@ -99,7 +99,7 @@ class CartItem {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CartPage(),
+                            builder: (context) => CartPage(),
                           ),
                         );
                       },
@@ -132,7 +132,17 @@ class CartItem {
                             const Color.fromRGBO(208, 208, 208, 1.0)
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Data.deleteCartItem(this);
+                        Data.addSale(toSale());
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartPage(),
+                          ),
+                        );
+                      },
                       child: Row(
                         children: const [
                           Icon(FontAwesomeIcons.checkDouble),
@@ -218,7 +228,7 @@ class CartItem {
     Navigator.pop(context);
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const CartPage())
+        MaterialPageRoute(builder: (context) => CartPage())
     );
     _showEditPanel(context);
   }

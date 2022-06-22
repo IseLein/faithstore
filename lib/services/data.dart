@@ -34,7 +34,6 @@ class Data {
           )
       );
     }
-    cartItems.add(CartItem(book: othersBookList[0], quantity: 4, trader: 'LOL'));
   }
 
   static List<Book> getBooks(BookCategory category) {
@@ -51,6 +50,16 @@ class Data {
     return cartItems;
   }
 
+  /// Return the total number of individual books in [cartItems]
+  static int getBookNumber() {
+    int totalNumber = 0;
+    for (CartItem cartItem in cartItems) {
+      totalNumber += cartItem.quantity;
+    }
+    return totalNumber;
+  }
+
+  /// Return the total cost of all the books in [cartItems]
   static double getCartTotal() {
     double cartTotal = 0;
     for (var item in cartItems) {
@@ -59,6 +68,9 @@ class Data {
     return cartTotal;
   }
 
+  /// Return true if [quantity] is not greater than [book.quantityLeft] adding
+  /// a new 'cartItem' to [cartItems]
+  /// Else, return false.
   static bool addCartItem(Book book, int quantity, String trader) {
     if (book.reduceQuantity(quantity)) {
       cartItems.add(
@@ -80,5 +92,13 @@ class Data {
     if (cartItems.contains(cartItem)) {
       cartItems.remove(cartItem);
     }
+  }
+
+  static void emptyCart() {
+    cartItems = [];
+  }
+
+  static void addSale(Sale sale) {
+    salesList.add(sale);
   }
 }

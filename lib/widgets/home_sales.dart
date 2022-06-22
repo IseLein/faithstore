@@ -17,29 +17,43 @@ class _HomeSalesState extends State<HomeSales> {
   /// starting from newest.
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: widget.salesList.length,
-      itemBuilder: (BuildContext context, int index) {
-        List<Sale> sales = widget.salesList;
-        return Column(
-          children: [
-            SizedBox(
-              child: isDifferentDay(index)
-                ? Row(
-                    children: [
-                      const Expanded(child: Divider()),
-                      Text(formatDate(sales[index].saleTime)),
-                      const Expanded(child: Divider()),
-                    ],
-                  )
-                :const SizedBox(height: 0.0),
+    return widget.salesList.isEmpty
+      ? ListView(
+        shrinkWrap: true,
+        children: const [
+          SizedBox(height: 30.0),
+          Text(
+            'No sales under current filter',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
             ),
-            sales[index].renderSaleWidget(context),
-          ],
-        );
-      },
-    );
+          ),
+        ],
+      )
+      : ListView.builder(
+        shrinkWrap: true,
+        itemCount: widget.salesList.length,
+        itemBuilder: (BuildContext context, int index) {
+          List<Sale> sales = widget.salesList;
+          return Column(
+            children: [
+              SizedBox(
+                child: isDifferentDay(index)
+                  ? Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        Text(formatDate(sales[index].saleTime)),
+                        const Expanded(child: Divider()),
+                      ],
+                    )
+                  :const SizedBox(height: 0.0),
+              ),
+              sales[index].renderSaleWidget(context),
+            ],
+          );
+        },
+      );
   }
 
   /// Checks if the [thisSale] was made on a different day from

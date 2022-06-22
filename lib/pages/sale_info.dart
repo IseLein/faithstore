@@ -29,7 +29,7 @@ class SaleInfo extends StatelessWidget {
             saleProperty('Author', sale.book.author),
             saleProperty('Quantity', sale.quantity.toString()),
             saleProperty(
-              'Sale Time:',
+              'Sale Time',
               '${getReadableTime(sale.saleTime)} ${sale.saleTime.day}'
                   '-${sale.saleTime.month}-${sale.saleTime.year}',
             ),
@@ -71,14 +71,14 @@ class SaleInfo extends StatelessWidget {
     String hour;
     String minute;
     if (time.hour.toString().length == 1) {
-      hour = '0${time.hour.toString()}';
+      hour = '0${time.hour}';
     } else {
-      hour = time.toString();
+      hour = '${time.hour}';
     }
     if (time.minute.toString().length == 1) {
-      minute = '0${time.minute.toString()}';
+      minute = '0${time.minute}';
     } else {
-      minute = time.toString();
+      minute = '${time.minute}';
     }
     return '$hour:$minute';
   }

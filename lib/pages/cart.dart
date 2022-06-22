@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:faithstore/services/data.dart';
+import 'package:faithstore/services/cart_item.dart';
+import 'package:faithstore/services/navigator.dart';
 import 'package:faithstore/widgets/home_cart_items.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
+  CartPage({Key? key}) : super(key: key);
+
+  final cartList = Data.getCart();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,10 @@ class CartPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => _confirmCheckout(context),
+                    );
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(
@@ -72,16 +79,49 @@ class CartPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Text(' books'),
+                    (Data.cartItems.length == 1)
+                      ? const Text(' book'): const Text(' books'),
                   ],
                 ),
                 const SizedBox(height: 8.0),
               ],
             ),
           ),
-          HomeCartItems(cartItemsList: Data.getCart()),
+          HomeCartItems(cartItemsList: cartList),
         ],
       ),
     );
+  }
+
+  Widget _confirmCheckout(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Confirm Sale'),
+      content: Text('Are you sure you want to sell ${Data.getBookNumber()} '
+          '${_bookS(Data.getBookNumber())} for N${Data.getCartTotal()}'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('NO'),
+        ),
+        TextButton(
+          onPressed: () {
+            for (CartItem cartItem in cartList) {
+              Data.addSale(cartItem.toSale());
+            }
+            Data.emptyCart();
+            Navigator.pop(context);
+            Navigator.pop(context);
+            AppNavigator.navigate(2, context);
+          },
+          child: const Text('YES'),
+        ),
+      ],
+    );
+  }
+
+  String _bookS(int num) {
+    return (num == 1) ? 'book' : 'books';
   }
 }

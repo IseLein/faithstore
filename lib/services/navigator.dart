@@ -19,7 +19,7 @@ class AppNavigator {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const CartPage(),
+        builder: (context) => CartPage(),
       ),
     );
   }
