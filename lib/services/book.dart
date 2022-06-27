@@ -4,6 +4,7 @@ import 'package:faithstore/pages/book_info.dart';
 enum BookCategory {peaceHouse, others}
 
 class Book {
+  String id;
   String title;
   String shortTitle;
   String author;
@@ -13,6 +14,7 @@ class Book {
   String image;
 
   Book({
+    required this.id,
     required this.title,
     required this.author,
     required this.price,
@@ -21,6 +23,10 @@ class Book {
     required this.shortTitle,
     required this.image,
   });
+
+  String getId(){
+    return id;
+  }
 
   /// Precondition: [quantity] > 0
   bool reduceQuantity(int quantity) {
@@ -45,7 +51,7 @@ class Book {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BookInfo(book: this),
+              builder: (context) => BookInfo(bookId: id),
             ),
           );
         },
@@ -53,6 +59,8 @@ class Book {
         child: Card(
           elevation: 2.0,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 child: Padding(
@@ -62,36 +70,39 @@ class Book {
                   ),
                 ),
               ),
-              const Divider(
-                thickness: 1,
-                color: Colors.grey,
-              ),
-              SizedBox(
-                height: 40.0,
-                child: Center(
+              // const Divider(
+              //   thickness: 1,
+              //   color: Colors.grey,
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 6.0, right: 6.0),
+                child: SizedBox(
+                  height: 40.0,
                   child: Text(
                     shortTitle,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     style: const TextStyle(
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 6.0),
-              Text(
-                author,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 3.0),
-              Text(
-                'N${price.toString()}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
+              const SizedBox(height: 2.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 6.0, right: 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text('N'),
+                    Text(
+                      '$price',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 17.0,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

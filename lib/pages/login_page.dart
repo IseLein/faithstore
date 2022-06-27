@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Login extends StatefulWidget {
@@ -12,23 +13,27 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Theme.of(context).primaryColor,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Theme.of(context).primaryColor
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(
+            top: 16.0, bottom: 16.0, left: 32.0, right: 32.0,
+          ),
           child: ListView(
             children: [
               const SizedBox(height: 60.0),
-              Image.asset(
-                'assets/images/FS.png',
-                height: 200.0,
-                width: 200.0,
-              ),
+              const Icon(FontAwesomeIcons.store, size: 64.0),
               const SizedBox(height: 30.0),
               const TextField(
                 decoration: InputDecoration(
                   icon: Icon(FontAwesomeIcons.user),
-                  border: OutlineInputBorder(),
                   labelText: 'Username',
                 ),
               ),
@@ -37,7 +42,6 @@ class _LoginState extends State<Login> {
                 obscureText: true,
                 decoration: InputDecoration(
                   icon: Icon(FontAwesomeIcons.key),
-                  border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
               ),
@@ -45,15 +49,23 @@ class _LoginState extends State<Login> {
               Center(
                 child: TextButton(
                   onPressed: () => {},
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(
-                      fontSize: 20,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).highlightColor
                     ),
-                    primary: Colors.white,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    padding: const EdgeInsets.all(16.0),
+                    foregroundColor: MaterialStateProperty.all(
+                      Theme.of(context).dividerColor
+                    ),
                   ),
-                  child: const Text("Login"),
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

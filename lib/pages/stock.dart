@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:faithstore/widgets/main_drawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StockPage extends StatefulWidget {
   const StockPage({Key? key}) : super(key: key);
@@ -14,7 +14,11 @@ class _StockPageState extends State<StockPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).dividerColor,
+          leading: const Icon(FontAwesomeIcons.store),
           title: const Text("Stocks"),
           bottom: const TabBar(
             tabs: [
@@ -23,7 +27,6 @@ class _StockPageState extends State<StockPage> {
             ],
           ),
         ),
-        drawer: MainDrawer(currentPage: 3),
         body: TabBarView(
           children: [
             Column(

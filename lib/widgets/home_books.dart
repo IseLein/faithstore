@@ -32,8 +32,8 @@ class HomeBooks extends StatelessWidget {
           itemCount: thisBookList.length,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 2.0,
-            childAspectRatio: 0.63,
+            mainAxisSpacing: 1.0,
+            childAspectRatio: 0.73,
             crossAxisCount: 2,
           ),
           itemBuilder: (BuildContext context, int index) {

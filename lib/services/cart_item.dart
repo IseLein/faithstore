@@ -1,6 +1,6 @@
+import 'package:faithstore/services/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:faithstore/pages/cart.dart';
 import 'package:faithstore/services/book.dart';
 import 'package:faithstore/services/sale.dart';
 import 'package:faithstore/services/data.dart';
@@ -14,7 +14,8 @@ class CartItem {
 
   Sale toSale() {
     return Sale(
-      book: book,
+      id: 'A1',
+      bookId: book.getId(),
       saleTime: DateTime.now(),
       quantity: quantity,
       trader: trader,
@@ -88,20 +89,17 @@ class CartItem {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color.fromRGBO(208, 208, 208, 1.0)
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).highlightColor,
+                        ),
+                        foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).dividerColor,
                         ),
                       ),
                       onPressed: () {
                         Data.deleteCartItem(this);
-                        book.quantityLeft += quantity;
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CartPage(),
-                          ),
-                        );
+                        book.increaseQuantity(quantity);
+                        AppNavigator.navigate(2, context);
                       },
                       child: Row(
                         children: const [
@@ -112,8 +110,11 @@ class CartItem {
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color.fromRGBO(208, 208, 208, 1.0)
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).highlightColor,
+                        ),
+                        foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).dividerColor,
                         ),
                       ),
                       onPressed: () {
@@ -128,20 +129,17 @@ class CartItem {
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color.fromRGBO(208, 208, 208, 1.0)
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).highlightColor,
+                        ),
+                        foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).dividerColor,
                         ),
                       ),
                       onPressed: () {
                         Data.deleteCartItem(this);
                         Data.addSale(toSale());
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CartPage(),
-                          ),
-                        );
+                        AppNavigator.navigate(2, context);
                       },
                       child: Row(
                         children: const [
@@ -225,11 +223,7 @@ class CartItem {
 
   void _updateState(BuildContext context) {
     Navigator.pop(context);
-    Navigator.pop(context);
-    Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CartPage())
-    );
+    AppNavigator.navigate(2, context);
     _showEditPanel(context);
   }
 }

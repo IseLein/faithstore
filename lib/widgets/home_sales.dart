@@ -40,13 +40,16 @@ class _HomeSalesState extends State<HomeSales> {
             children: [
               SizedBox(
                 child: isDifferentDay(index)
-                  ? Row(
-                      children: [
-                        const Expanded(child: Divider()),
-                        Text(formatDate(sales[index].saleTime)),
-                        const Expanded(child: Divider()),
-                      ],
-                    )
+                  ? Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Row(
+                        children: [
+                          const Expanded(child: Divider()),
+                          Text(formatDate(sales[index].saleTime)),
+                          const Expanded(child: Divider()),
+                        ],
+                      ),
+                  )
                   :const SizedBox(height: 0.0),
               ),
               sales[index].renderSaleWidget(context),
@@ -71,6 +74,6 @@ class _HomeSalesState extends State<HomeSales> {
 
   /// Returns a formatted version of [date]. Format - "YYYY-MM-DD"
   String formatDate(DateTime date) {
-    return '${date.year}-${date.month}-${date.day}';
+    return ' ${date.day}/${date.month}/${date.year} ';
   }
 }

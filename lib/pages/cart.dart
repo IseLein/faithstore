@@ -3,22 +3,47 @@ import 'package:faithstore/services/data.dart';
 import 'package:faithstore/services/cart_item.dart';
 import 'package:faithstore/services/navigator.dart';
 import 'package:faithstore/widgets/home_cart_items.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CartPage extends StatelessWidget {
-  CartPage({Key? key}) : super(key: key);
+class CartPage extends StatefulWidget {
+  const CartPage({Key? key}) : super(key: key);
 
-  final cartList = Data.getCart();
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+// class _CartPageState extends State<CartPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
+
+
+class _CartPageState extends State<CartPage> {
+
+  late List<CartItem> cartList;
+
+  @override
+  initState() {
+    cartList = Data.getCart();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).dividerColor,
+        leading: const Icon(FontAwesomeIcons.store),
         title: const Text('Cart'),
       ),
       body: ListView(
         children: [
           Container(
-            color: const Color.fromRGBO(208, 208, 208, 1.0),
+            color: Theme.of(context).primaryColor,
             child: Column(
               children: [
                 Padding(
@@ -54,6 +79,14 @@ class CartPage extends StatelessWidget {
                       builder: (context) => _confirmCheckout(context),
                     );
                   },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).scaffoldBackgroundColor
+                    ),
+                    foregroundColor: MaterialStateProperty.all(
+                        Theme.of(context).dividerColor
+                    ),
+                  ),
                   child: const Padding(
                     padding: EdgeInsets.only(
                       left: 20.0,
@@ -112,8 +145,7 @@ class CartPage extends StatelessWidget {
             }
             Data.emptyCart();
             Navigator.pop(context);
-            Navigator.pop(context);
-            AppNavigator.navigate(2, context);
+            AppNavigator.navigate(1, context);
           },
           child: const Text('YES'),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:full_screen_date_picker/full_screen_date_picker.dart';
 
 class SalesBottom extends StatefulWidget {
   const SalesBottom({Key? key}) : super(key: key);
@@ -13,7 +12,7 @@ class _SalesBottomState extends State<SalesBottom> {
   Widget build(BuildContext context) {
     return Container(
       height: 56.0,
-      color: const Color.fromRGBO(140, 140, 140, 0.5),
+      color: Theme.of(context).primaryColor,
       child: ListView(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -35,8 +34,8 @@ class _SalesBottomState extends State<SalesBottom> {
           Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8.0),
             child: _CategoryFilter(
-              title: "BookCategory",
-              categories: ["BookCategory", "All", "PH Books", "Others"],
+              title: "Category",
+              categories: ["Category", "All", "PH Books", "Others"],
             ),
           ),
           Padding(
@@ -67,24 +66,39 @@ class _CategoryFilterState extends State<_CategoryFilter> {
   String dropDownValue = "";
 
   @override
+  initState(){
+    dropDownValue = widget.title;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (dropDownValue == "") {
-      dropDownValue = widget.title;
-    }
-    return DropdownButton<String>(
-      value: dropDownValue,
-      items: widget.categories
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value, textAlign: TextAlign.center),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          dropDownValue = value!;
-        });
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      child: Container(
+        padding: const EdgeInsets.only(left: 8.0, right: 4.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).highlightColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: dropDownValue,
+            items: widget.categories
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, textAlign: TextAlign.center),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                dropDownValue = value!;
+              });
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -102,26 +116,42 @@ class _DateFilterState extends State<_DateFilter> {
   String selectedDate = "";
 
   @override
+  initState(){
+    selectedDate = widget.title;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (selectedDate == "") {
-      selectedDate = widget.title;
-    }
-    return TextButton(
-      onPressed: () {getDate();},
-      child: Text(
-        selectedDate,
-        style: const TextStyle(color: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: TextButton(
+          onPressed: () {getDate();},
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(
+              Theme.of(context).highlightColor
+            ),
+            foregroundColor: MaterialStateProperty.all(
+              Theme.of(context).dividerColor
+            ),
+          ),
+          child: Text(selectedDate),
+        ),
       ),
     );
   }
 
   void getDate() async {
-    DateTime date = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => FullScreenDatePicker(
-        title: "Select ${widget.title}",
-      )),
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022, 1),
+        lastDate: DateTime.now(),
     );
-    setState(() => selectedDate = date.toString().substring(0, 10));
+    if (pickedDate != null) {
+      setState(() => selectedDate = pickedDate.toString().substring(0, 10));
+    }
   }
 }

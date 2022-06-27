@@ -4,18 +4,44 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:faithstore/services/book.dart';
 import 'package:faithstore/services/data.dart';
 import 'package:faithstore/services/navigator.dart';
+import 'package:faithstore/services/search.dart';
 
-class BookInfo extends StatelessWidget {
-  const BookInfo({Key? key, required this.book}) : super(key: key);
+class BookInfo extends StatefulWidget {
+  const BookInfo({Key? key, required this.bookId}) : super(key: key);
 
-  final Book book;
+  final String bookId;
+
+  @override
+  State<BookInfo> createState() => _BookInfoState();
+}
+
+class _BookInfoState extends State<BookInfo> {
+  late Book book;
+
+  @override
+  initState() {
+    book = Search.getBook(widget.bookId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     TextEditingController quantityController = TextEditingController();
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        title: const Text("Book"),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Theme.of(context).dividerColor,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Book"),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(FontAwesomeIcons.penToSquare),
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -54,6 +80,11 @@ class BookInfo extends StatelessWidget {
               padding: const EdgeInsets.only(left: 35.0, right: 35.0),
               child: Center(
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).scaffoldBackgroundColor
+                    ),
+                  ),
                   onPressed: () {
                     try {
                       int quantity = int.parse(quantityController.text);
@@ -63,13 +94,25 @@ class BookInfo extends StatelessWidget {
                       _showBottomPanel(context, false);
                     }
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(FontAwesomeIcons.cartShopping),
-                      SizedBox(width: 10.0),
-                      Text('Add to Cart'),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.cartShopping,
+                          color: Theme.of(context).dividerColor,
+                        ),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          'Add to Cart',
+                          style: TextStyle(
+                            color: Theme.of(context).dividerColor,
+                            fontSize: 17.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -82,6 +125,9 @@ class BookInfo extends StatelessWidget {
 
   void _showBottomPanel(BuildContext context, bool state, {int quantity = 0}) {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       context: context,
       builder: (context) {
         return state
@@ -102,7 +148,8 @@ class BookInfo extends StatelessWidget {
                             ),
                           ),
                           (quantity == 1)
-                              ? const Text(' book'): const Text(' books'),
+                              ? const Text(' book added')
+                              : const Text(' books added'),
                         ],
                       ),
                       const SizedBox(height: 20.0),
@@ -135,6 +182,14 @@ class BookInfo extends StatelessWidget {
                         onPressed: () {
                           AppNavigator.goToCheckout(context);
                         },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).dividerColor,
+                          ),
+                        ),
                         child: const Text('GO TO CHECKOUT'),
                       ),
                       const SizedBox(height: 20.0),
@@ -142,6 +197,14 @@ class BookInfo extends StatelessWidget {
                         onPressed: () {
                           AppNavigator.goToHome(context);
                         },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).dividerColor,
+                          ),
+                        ),
                         child: const Text('ADD MORE BOOKS'),
                       ),
                     ],

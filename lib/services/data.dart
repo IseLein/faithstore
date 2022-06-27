@@ -10,9 +10,10 @@ class Data {
 
   static void initData() {
     // TODO: Implement Firebase here
-    for (int i = 0; i <= 43; i ++) {
+    for (int i = 0; i <= 1; i ++) {
       phBookList.add(
         Book(
+          id: 'A1',
           title: "What God looks for in His Vessel",
           author: "Gbile Akanni",
           price: 5000, category: BookCategory.peaceHouse,
@@ -22,9 +23,10 @@ class Data {
         )
       );
     }
-    for (int i = 0; i <= 43; i ++) {
+    for (int i = 0; i <= 1; i ++) {
       othersBookList.add(
           Book(
+            id: 'B1',
             title: "Secrets of the Secret Place",
             author: "Bob Sorge",
             price: 5000, category: BookCategory.others,

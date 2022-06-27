@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:faithstore/pages/cart.dart';
+import 'package:faithstore/pages/main_nav.dart';
 
-List pages = [
-  '/home',
-  '/orders',
-  '/sales',
-  '/stock',
-  '/settings',
-];
 
 class AppNavigator {
   static void navigate(int index, BuildContext context) {
-    Navigator.pushReplacementNamed(context, pages[index]);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainNav(currIndex: index),
+      ),
+    );
   }
 
   static void goToCheckout(BuildContext context) {
     goToHome(context);
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => CartPage(),
+        builder: (context) => const MainNav(currIndex: 2),
       ),
     );
   }

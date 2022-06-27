@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:faithstore/services/sale.dart';
+import 'package:faithstore/services/search.dart';
 
-class SaleInfo extends StatelessWidget {
-  const SaleInfo({Key? key, required this.sale}) : super(key: key);
+class SaleInfo extends StatefulWidget {
+  const SaleInfo({Key? key, required this.saleId}) : super(key: key);
 
-  final Sale sale;
+  final String saleId;
+
+  @override
+  State<SaleInfo> createState() => _SaleInfoState();
+}
+
+class _SaleInfoState extends State<SaleInfo> {
+  late Sale sale;
+
+  @override
+  initState() {
+    sale = Search.getSale(widget.saleId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Theme.of(context).dividerColor,
         title: const Text("Sale"),
       ),
       body: Padding(
@@ -30,9 +47,10 @@ class SaleInfo extends StatelessWidget {
             saleProperty('Quantity', sale.quantity.toString()),
             saleProperty(
               'Sale Time',
-              '${getReadableTime(sale.saleTime)} ${sale.saleTime.day}'
-                  '-${sale.saleTime.month}-${sale.saleTime.year}',
+              '${getReadableTime(sale.saleTime)} | ${sale.saleTime.day}'
+                  '/${sale.saleTime.month}/${sale.saleTime.year}',
             ),
+            saleProperty('Sold By', sale.trader),
           ],
         ),
       ),

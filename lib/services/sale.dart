@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:faithstore/services/book.dart';
+import 'package:faithstore/services/search.dart';
 import 'package:faithstore/pages/sale_info.dart';
 
 class Sale {
+  String id;
+  String bookId;
   Book book;
   DateTime saleTime;
   int quantity;
   String trader;
 
   Sale({
-    required this.book,
+    required this.id,
+    required this.bookId,
     required this.saleTime,
     required this.quantity,
     required this.trader,
-  });
+  }) : book = Search.getBook(bookId);
 
   Widget renderSaleWidget(BuildContext context) {
     return Padding(
@@ -23,7 +27,7 @@ class Sale {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SaleInfo(sale: this),
+              builder: (context) => SaleInfo(saleId: id),
             ),
           );
         },

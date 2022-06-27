@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:faithstore/widgets/home_books.dart';
-import 'package:faithstore/widgets/main_drawer.dart';
 import 'package:faithstore/services/book.dart';
 import 'package:faithstore/services/data.dart';
 import 'package:faithstore/services/search.dart';
-import 'package:faithstore/pages/cart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,32 +34,38 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: TextField(
-            onChanged: (value) => {
-              setState(() {
-                _phBooks = Search.searchBooks(
-                    value, Data.getBooks(BookCategory.peaceHouse)
-                );
-                _otherBooks = Search.searchBooks(
-                    value, Data.getBooks(BookCategory.others)
-                );
-              })
-            },
-            showCursor: true,
-            textAlignVertical: TextAlignVertical.bottom,
-            style: const TextStyle(
-              fontSize: 18.0,
-            ),
-            decoration: const InputDecoration(
-              prefix: Padding(
-                padding: EdgeInsets.only(right: 5.0),
-                child: Icon(FontAwesomeIcons.magnifyingGlass, size: 16.0),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemNavigationBarColor: Theme.of(context).primaryColor,
+            statusBarColor: Theme.of(context).primaryColor,
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          title: ClipRRect(
+            // borderRadius: BorderRadius.circular(25),
+            child: TextField(
+              onChanged: (value) => {
+                setState(() {
+                  _phBooks = Search.searchBooks(
+                      value, Data.getBooks(BookCategory.peaceHouse)
+                  );
+                  _otherBooks = Search.searchBooks(
+                      value, Data.getBooks(BookCategory.others)
+                  );
+                })
+              },
+              showCursor: true,
+              textAlignVertical: TextAlignVertical.bottom,
+              style: const TextStyle(
+                fontSize: 18.0,
               ),
-              constraints: BoxConstraints(minHeight: 0.0, maxHeight: 45.0),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(),
-              hintText: 'Search Books',
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  FontAwesomeIcons.magnifyingGlass,
+                  size: 16.0,
+                  color: Theme.of(context).dividerColor,
+                ),
+                constraints: const BoxConstraints(minHeight: 0.0, maxHeight: 45.0),
+                hintText: 'Search Books',
+              ),
             ),
           ),
           bottom: const TabBar(
@@ -70,7 +75,6 @@ class _HomePageState extends State<HomePage> {
               ],
           ),
         ),
-        drawer: MainDrawer(currentPage: 0),
         body: TabBarView(
           children:  [
             ListView(
@@ -90,20 +94,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          foregroundColor: Colors.white,
-          backgroundColor: const Color.fromRGBO(140, 140, 140, 1.0),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CartPage(),
-              ),
-            );
-          },
-          icon: const Icon(FontAwesomeIcons.cartShopping),
-          label: const Text('Cart'),
         ),
       ),
     );

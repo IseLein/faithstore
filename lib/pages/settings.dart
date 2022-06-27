@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:faithstore/widgets/main_drawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -12,10 +12,13 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).dividerColor,
+        leading: const Icon(FontAwesomeIcons.store),
         title: const Text("FaithStore"),
       ),
-      drawer: MainDrawer(currentPage: 4),
       body: ListView(
         children: const [
           SizedBox(height: 40.0),
